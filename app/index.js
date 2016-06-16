@@ -16,7 +16,7 @@ require('./sass/styles.scss');
 render((
   <Router history={browserHistory}>
     <Route path='/' component={App}>
-      <IndexRoute component={Home} />
+      <IndexRoute component={Login} />
       <Route path='/login' component={Login} />
       <Route path='/logout' component={Logout} />
       <Route path='/signup' component={Signup} />

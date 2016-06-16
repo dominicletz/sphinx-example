@@ -34,6 +34,7 @@
     "jsonep": "0",
     "lua.vm.js": "0.0.1",
     "material-design-icons": "^2.2.3",
+    "material-ui": "^0.14.4",
     "moment-timezone": "^0.5.1",
     "muicss": "^0.4.7",
     "path": "^0.12.7",
@@ -42,6 +43,7 @@
     "react-redux": "^4.4.1",
     "react-router": "^2.0.0",
     "react-script-loader": "0.0.1",
+    "react-tap-event-plugin": "^0.2.2",
     "redux": "^3.3.1"
   },
   "devDependencies": {

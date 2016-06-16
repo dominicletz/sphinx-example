@@ -1,18 +1,25 @@
-import React from 'react'
-import { browserHistory } from 'react-router'
+import React from 'react';
+import { browserHistory } from 'react-router';
+
 import Form from 'muicss/lib/react/form'
 import Button from 'muicss/lib/react/button'
 import Input from 'muicss/lib/react/input'
-import Spinner from '../components/spinner'
+
+import TextField from 'material-ui/lib/text-field';
+import Spinner from '../components/spinner';
 import { attemptSignup } from '../actions/auth'
+import AppBar from 'material-ui/lib/app-bar';
+import RaisedButton from 'material-ui/lib/raised-button';
+import FlatButton from 'material-ui/lib/flat-button';
+import Container from 'muicss/lib/react/container';
 
 export default React.createClass({
   contextTypes: {
     store: React.PropTypes.object
   },
 
-  handleForm (event) {
-    console.log('atsu')
+  handleSignup(event) {
+    event.preventDefault();
     event.preventDefault()
     const email = event.target.elements[0].value
     const password = event.target.elements[1].value
@@ -41,47 +48,48 @@ export default React.createClass({
   render () {
     let spinner_when_waiting = (
       this.context.store.getState().auth.status === 'waiting'
-      ? <Spinner />
-      : <Spinner style={{visibility: "hidden"}} />
-    )
-
-    console.log(this.context.store.getState().auth.error)
+        ? <Spinner />
+        : <Spinner style={{visibility: "hidden"}} />
+    );
 
     let error_message = (
-      this.context.store.getState().auth.status !== "error"
-      ? <div></div>
-      : (
-        <div className='messagebox error'>
-          {this.context.store.getState().auth.error}
-        </div>
-      )
-    )
+      this.context.store.getState().auth.error == null
+        ? <div></div>
+        : <div className='messagebox error'>{this.context.store.getState().auth.error}</div>
+    );
 
-    console.log(this.context.store.getState().auth.status)
+    let appBarStyle = {
+      backgroundColor: '#ffffff',
+      boxShadow: 'none'
+    };
 
-    let success_message = (
-      this.context.store.getState().auth.status !== "good"
-      ? <div></div>
-      : (
-        <div className='messagebox success'>
-          Thanks for signing up. Check your email to activate your account.
-        </div>
-      )
-    )
-
-    let signup_form = (
+    return (
       <div>
-        <h2>Signup</h2>
-        {error_message}
-        {success_message}
-        <Form onSubmit={this.handleForm}>
-          <Input label='Email Address' floatingLabel/>
-          <Input label='Password' type="password" floatingLabel/>
-          <Button color='secondary'>Signup</Button> {spinner_when_waiting}
-        </Form>
+        <AppBar style={ appBarStyle } showMenuIconButton={false} iconElementRight={ <RaisedButton linkButton={true} href="/login" label="LOGIN" primary={true} /> } />
+
+        <Container>
+          <div className='logo-container'>
+            <img src="images/example_iot_company_logo.svg" />
+          </div>
+          <h2 className="page-header">Sign Up</h2>
+          {error_message}
+
+          <Form onSubmit={this.handleSignup}>
+            <Input label='Email address' floatingLabel/>
+            <Input type='password' label='Password' floatingLabel/>
+            <Button className='signup-button' color='primary'>SEND VERIFICATION EMAIL</Button>
+            {spinner_when_waiting}
+          </Form>
+
+          <div className="terms-conditions">
+            <p>By creating an account, you agree to the Terms and Conditions</p>
+          </div>
+
+          <footer className="version">
+            Version 1.0.3
+          </footer>
+        </Container>
       </div>
     )
-
-    return signup_form
   }
 })

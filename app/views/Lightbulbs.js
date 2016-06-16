@@ -1,46 +1,73 @@
 import React from 'react'
 import ReactDOM from 'react-dom';
-import Row from 'muicss/lib/react/row';
-import Col from 'muicss/lib/react/col';
 import { browserHistory } from 'react-router'
-import Form from 'muicss/lib/react/form'
-import Button from 'muicss/lib/react/button'
-import Input from 'muicss/lib/react/input'
-import mui from 'muicss';
+import { Link } from 'react-router'
+import FloatingActionButton from 'material-ui/lib/floating-action-button';
 import Spinner from '../components/spinner'
 import AddLightbulbForm from '../components/add_lightbulb_form'
 import { attemptToggleLightbulbState, attemptAddLightbulb, requestLightbulbs } from '../actions/lightbulbs'
+import Container from 'muicss/lib/react/container';
+import { logout } from '../actions/auth'
+
+import ContentAdd from 'material-ui/lib/svg-icons/content/add';
+import AppBar from 'material-ui/lib/app-bar';
+import List from 'material-ui/lib/lists/list';
+import ListItem from 'material-ui/lib/lists/list-item';
+import ActionInfo from 'material-ui/lib/svg-icons/action/info';
+import Divider from 'material-ui/lib/divider';
+import Avatar from 'material-ui/lib/avatar';
+import LightbulbIcon from 'material-ui/lib/svg-icons/action/lightbulb-outline.js';
+import ActionAssignment from 'material-ui/lib/svg-icons/action/assignment';
+import Colors from 'material-ui/lib/styles/colors';
+import RaisedButton from 'material-ui/lib/raised-button';
+import FlatButton from 'material-ui/lib/flat-button';
+import Dialog from 'material-ui/lib/dialog';
 
 export default React.createClass({
+
   contextTypes: {
     store: React.PropTypes.object
   },
 
-  showLightbulbMenu(event) {
-    console.log("in showLightbulbMenu");
-    // initialize modal element
-    //var modalEl = document.createElement('div');
-    //modalEl.style.width = '100px';
-    //modalEl.style.height = 'auto';
-    //modalEl.style.position = 'relative';
-    //modalEl.style.left = event.screenX;
-    //modalEl.style.top = event.screenY;
-    //modalEl.style.backgroundColor = '#fff';
-
-    // show modal
-    //mui.overlay('on', modalEl);
+  getInitialState() {
+    return {
+      lightbulbModalOpen: false
+    }
   },
 
-  showAddLightbulbForm() {
-    console.log("in showAddLightbulbForm");
-    mui.overlay('on');
+  showLightbulbModal() {
+    console.log("in showLightbulbModal");
+    this.setState({lightbulbModalOpen: true});
   },
 
-  handleAddLightbulb (request) {
+  closeLightbulbModal() {
+    console.log("in closeLightbulbModal");
+    this.setState({lightbulbModalOpen: false});
+  },
+
+  handleAddLightbulb(request) {
     attemptAddLightbulb(request.sn)(this.context.store.dispatch, this.context.store.getState)
+    this.closeLightbulbModal();
   },
 
-  componentWillMount () {
+  loadLightbulb(arg) {
+    console.log('in loadLightbulb. arg: ', arg.target);
+  },
+
+  /**
+   * TODO: this can't the right way to handle logging out...
+   */
+  handleLogout (event) {
+    event.preventDefault();
+
+    logout()(this.context.store.dispatch)
+
+    browserHistory.push('/login')
+
+    this.forceUpdate()
+  },
+
+  componentWillMount() {
     let state = this.context.store.getState()
 
     // FIXME: This is probably the wrong way to do this.
@@ -49,43 +76,45 @@ export default React.createClass({
       return
     }
 
-    this.unsubscribe = this.context.store.subscribe(() => {
-      // FIXME: This is definitely the wrong way to do this, use react-redux's `connect`
-      this.forceUpdate()
-    })
+    this.forceUpdate()
 
-    // TODO: replace all these calls with redux-thunk
-    requestLightbulbs()(this.context.store.dispatch, this.context.store.getState)
-
-    this.pollInterval = 1000
-
-    this.updateStatuses()
-
-    window.addEventListener("blur", this.onblur)
-    window.addEventListener("focus", this.onfocus)
+    //this.unsubscribe = this.context.store.subscribe(() => {
+    //  // FIXME: This is definitely the wrong way to do this, use react-redux's `connect`
+    //  this.forceUpdate()
+    //})
+    //
+    //// TODO: replace all these calls with redux-thunk
+    //requestLightbulbs()(this.context.store.dispatch, this.context.store.getState)
+    //
+    //this.pollInterval = 1000
+    //
+    //this.updateStatuses()
+    //
+    //window.addEventListener("blur", this.onblur)
+    //window.addEventListener("focus", this.onfocus)
   },
 
-  onblur () {
-    this.pollInterval = 10000
-  },
+  //onblur () {
+  //  this.pollInterval = 10000
+  //},
+  //
+  //onfocus () {
+  //  this.pollInterval = 1000
+  //  this.updateStatuses()
+  //},
 
-  onfocus () {
-    this.pollInterval = 1000
-    this.updateStatuses()
-  },
+  //updateStatuses () {
+  //  let state = this.context.store.getState()
+  //  if (state.lightbulbs.isFetching == false) {
+  //    requestLightbulbs()(this.context.store.dispatch, this.context.store.getState)
+  //  }
+  //
+  //  this.pollTimer = window.setTimeout(() => {
+  //    this.updateStatuses()
+  //  }, this.pollInterval)
+  //},
 
-  updateStatuses () {
-    let state = this.context.store.getState()
-    if (state.lightbulbs.isFetching == false) {
-      requestLightbulbs()(this.context.store.dispatch, this.context.store.getState)
-    }
-
-    this.pollTimer = window.setTimeout(() => {
-      this.updateStatuses()
-    }, this.pollInterval)
-  },
-
-  componentWillUnmount () {
+  componentWillUnmount() {
     if (typeof this.unsubscribe == "function") { this.unsubscribe() }
     if (this.pollTimer != undefined) { window.clearTimeout(this.pollTimer); this.pollTimer = undefined}
 
@@ -93,7 +122,7 @@ export default React.createClass({
     window.removeEventListener("focus", this.onfocus)
   },
 
-  render () {
+  render() {
     let spinner_when_waiting = (
       this.context.store.getState().lightbulbs.isFetching && this.context.store.getState().lightbulbs.statuses.length == 0
       ? <Spinner />
@@ -104,52 +133,112 @@ export default React.createClass({
       this.context.store.getState().auth.error == null
       ? <div></div>
       : <div className='messagebox error'>{this.context.store.getState().auth.error}</div>
-    )
+    );
 
     let info_message_when_none = (
       this.context.store.getState().lightbulbs.statuses.length === 0
       ? <div className='messagebox info'>You do not have any lightbulbs, you can add one below.</div>
       : <div></div>
-    )
+    );
 
-    let state = this.context.store.getState()
+    let appBarStyle = {
+      backgroundColor: '#ffffff'
+    };
+
+    let state = this.context.store.getState();
+
+    const actionButtonStyle = {
+      'float': 'right',
+      color: '#FF9300',
+      marginRight: 20,
+      marginTop: -10,
+      marginBottom:30
+    };
+
+    const actions = [
+      <FlatButton
+        label="Cancel"
+        secondary={true}
+        onTouchTap={this.closeLightbulbModal}
+        />,
+
+      <FlatButton
+        label="Submit"
+        primary={true}
+        disabled={true}
+        onTouchTap={this.handleAddLightbulb}
+        />
+    ];
+
+    const logoutButton = (
+      <FlatButton label="LOGOUT"
+                  primary={true}
+                  style={{ color: 'rgb(255, 64, 129)' }}
+                  onTouchStart={this.handleLogout}
+                  onMouseUp={this.handleLogout} />
+    );
 
     return (
       <div>
-        <h2>Devices {spinner_when_waiting}</h2>
-        {error_message}
-        {info_message_when_none}
+        <AppBar title={ <div className='appbar-logo-container'><img src='/images/example_iot_company_logo_mark.svg' /></div> }
+                style={ appBarStyle }
+                iconElementRight={ logoutButton }
+                showMenuIconButton={false}  />
+
+        <div className='masthead'>
+          <p className='headline'>My Home {spinner_when_waiting}</p>
+          <FloatingActionButton
+            onMouseDown={this.showLightbulbModal}
+            backgroundColor={ '#FF921E' }
+            mini={false}
+            style={actionButtonStyle}>
+            <ContentAdd />
+          </FloatingActionButton>
+        </div>
+
+        <Container>
+          {error_message}
+          {info_message_when_none}
+          <List>
           {state.lightbulbs.statuses.sort((a,b) => a.serialnumber > b.serialnumber).map( (m,i) => {
-            const statusIconClass = "material-icons md-36 status-icon " + m.state;
-
+            const link = `/lightbulbs/${m.serialnumber}`;
             return (
-              <Row className="device-list-item">
-                <Col xs="2" md="1" className="status-icon-col"><i className={statusIconClass}>lightbulb_outline</i></Col>
-                <Col xs="8" md="10" className="name-and-serial">
-                  <Row>
-                    <Col xs="12">{m.name}</Col>
-                  </Row>
-                  <Row>
-                    <Col xs="12" className="serialnumber">{m.serialnumber}</Col>
-                  </Row>
-                </Col>
-                <Col xs="2" md="1">
-                  <div onClick={this.showLightbulbMenu} className="item-menu-icon">
-                    <i className="material-icons md-36">more_vert</i>
-                  </div>
-                </Col>
-              </Row>
-            )
-          })}
-        <Row>
-          <Col xs="12">
-            <AddLightbulbForm onSubmit={this.handleAddLightbulb} isLoading={state.lightbulbs.isAdding} />
-          </Col>
-        </Row>
-      </div>
+                  <Link to={link} key={i}>
+                    <ListItem leftAvatar={<Avatar icon={<LightbulbIcon />} backgroundColor={ m.state === 'on' ? Colors.yellow600 : Colors.grey300} />}
+                              primaryText={m.name}
+                              secondaryText={m.serialnumber} />
+                      <Divider />
+                  </Link>
+                )
+            })}
+          </List>
+        </Container>
 
+        <Dialog
+          title=""
+          contentStyle={{ maxWidth: 400 }}
+          modal={true}
+          open={this.state.lightbulbModalOpen}
+          onRequestClose={this.closeLightbulbModal} >
+
+          <AddLightbulbForm onSubmit={this.handleAddLightbulb} isLoading={state.lightbulbs.isAdding} />
+        </Dialog>
+       </div>
     )
   }
 })
 
-// <Button onClick={this.showAddLightbulbForm} className="add-device-btn" size="small" color="accent" variant="fab">+</Button>
+
+
+//const rightIconMenu = (
+//  <IconMenu
+//    iconButtonElement={<IconButton><MoreVertIcon color={Colors.grey400} /></IconButton>}
+//    anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+//    targetOrigin={{horizontal: 'right', vertical: 'top'}} >
+//    <MenuItem primaryText="Turn on" />
+//    <MenuItem primaryText="Add Alert" />
+//    <MenuItem primaryText="Share" />
+//    <MenuItem primaryText="Edit" />
+//    <MenuItem primaryText="Delete" />
+//  </IconMenu>
+//);

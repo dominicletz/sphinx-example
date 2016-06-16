@@ -45,10 +45,30 @@ function getTestingState () {
       state: "off",
       isUpdating: false
     }],
-    shares: [{
-      id: "01:23:45:67:89:00",
-      email: "pat@bar.baz"
-    }]
+    shares: [
+      {
+        id: "01:23:45:67:89:00",
+        serialnumber: '1-BA30-9ANALK',
+        email: "pat@bar.baz"
+      },
+      {
+        id: "01:23:45:67:89:00",
+        serialnumber: '1-BA30-9ANALK',
+        email: "george.clinton@wizzlewuzzle.com"
+      }
+    ],
+    alerts: [
+      {
+        id: "01:23:45:67:89:00",
+        serialnumber: '1-BA30-9ANALK',
+        name: "Hours On",
+        emails: [
+          'you@youremail.com',
+          'me@myemail.com',
+          'him@hisemail.com'
+        ]
+      }
+    ]
   }
 }
 

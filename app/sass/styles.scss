@@ -1,51 +1,8 @@
-
 $mui-accent-color: #FF9300;
-$mui-input-placeholder-color: #666666;
-$mui-label-font-color: $mui-input-placeholder-color;
-$mui-input-border-color-focus: $mui-input-placeholder-color;
-$mui-label-font-color:$mui-input-placeholder-color;
-$exosite-primary-color: #222736;
-$exosite-secondary-color:#2C9DB6;
+$mui-btn-primary-bg-color: #00bcd4;
 
+//using mui-css just for basic CSS "reset" stuff. Prefer Material-UI components.
 @import "node_modules/muicss/lib/sass/mui";
-
-.mui-appbar {
-  background: $exosite-primary-color;
-
-  img.logo {
-    width: auto;
-    height: 40px;
-    margin-top: -5px;
-  }
-}
-
-.mui-btn--secondary {
-  background-color: $exosite-secondary-color;
-  color: #ffffff;
-}
-
-.mui-textfield--float-label {
-  input {
-    color:$mui-input-placeholder-color;
-    border-bottom-color: $mui-input-placeholder-color;
-  }
-
-  label {
-    color: $mui-input-placeholder-color;
-  }
-}
-
-.mui-textfield {
-  input, textarea {
-    display: block;
-
-    border-bottom-color: $mui-input-placeholder-color;
-
-    &:focus ~ label {
-      color: $mui-input-placeholder-color;
-    }
-  }
-}
 
 /* Rules for sizing the icon. */
 .material-icons.md-18 { font-size: 18px; }
@@ -60,28 +17,73 @@ $exosite-secondary-color:#2C9DB6;
 /* Rules for using icons as white on a dark background. */
 .material-icons.md-light { color: rgba(255, 255, 255, 1); }
 .material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }
+//
+//.appbar {
+//  img.logo {
+//    width: auto;
+//    height: 40px;
+//    margin-top: -5px;
+//  }
+//}
 
-#app-title {
-  padding-left: 20px;
-  font-size: 24px;
-  line-height: 64px;
-  display: inline;
-  color: white;
+.appbar-logo-container {
+  margin: 15px auto;
+  float:left;
+  position:relative;
+  left: 54%;
+
+  img {
+    width: 30px;
+  }
 }
 
-#app-title a {
-  color: white;
+.masthead {
+  height: 100px;
+  background-color: #38C4DE;
+  color: #ffffff;
+
+  .headline {
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 32px;
+    position: relative;
+    top: 60%;
+    margin-left: 25px;
+  }
 }
 
-#app-nav {
-  float: right;
-  display: inline;
-  line-height: 64px;
-  padding-right: 20px;
+.logo-container {
+  max-width: 160px;
+  margin: 0 auto;
 }
 
-#app-nav a {
-  color: white
+.page-header {
+  text-align: center;
+}
+
+.nav-bar {
+  height:30px;
+  padding: 5px 10px;
+  margin: 10px 0;
+
+  .home-icon {
+    color: #FFFFFF;
+    margin-top:5px;
+    display: inline-block;
+  }
+}
+
+.login-button, .signup-button {
+  width:100%;
+}
+
+.forgot-password-button {
+  width: 100%;
+}
+
+footer.version {
+  text-align: center;
+  margin: 25px 0;
 }
 
 textarea {
@@ -213,4 +215,10 @@ textarea {
 .progress > div:after {
   transform: rotate(-135deg);
   background: #bbb;
+}
+
+form {
+  .progress {
+    left: 45%;
+  }
 }

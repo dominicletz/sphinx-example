@@ -1,7 +1,8 @@
 import React from 'react'
 import { browserHistory } from 'react-router'
 import Button from 'muicss/lib/react/button'
-import Appbar from 'muicss/lib/react/appbar'
+import RaisedButton from 'material-ui/lib/raised-button';
+import ExositeTheme from './ExositeTheme'
 
 export default React.createClass({
   contextTypes: {
@@ -13,20 +14,30 @@ export default React.createClass({
   },
 
   render () {
+    const style = {
+      margin: 10,
+    };
+
     if (this.isLoggedIn()) {
       return (
         <div>
           <h2>My Home</h2>
-          <Button
-            color='secondary'
-            onClick={() => { browserHistory.push('/lightbulbs') }}>
-            My Lightbulbs
-          </Button>
-          <Button
-            color='secondary'
-            onClick={() => { browserHistory.push('/account') }}>
-            My Account
-          </Button>
+          <RaisedButton
+            style={style}
+            secondary={true}
+            backgroundColor={ExositeTheme.palette.primary2Color}
+            label='My Lightbulbs'
+            linkButton={true}
+            href={'/lightbulbs'} />
+
+          <RaisedButton
+            style={style}
+            secondary={true}
+            backgroundColor={ExositeTheme.palette.primary2Color}
+            label='My Account'
+            linkButton={true}
+            href={'/account'} />
+
         </div>
       )
     } else {
@@ -34,16 +45,23 @@ export default React.createClass({
         <div>
           <h1>Brilliant Beacon</h1>
           <h4>Smart home lighting solution</h4>
-          <Button
-            color='secondary'
-            onClick={() => { browserHistory.push('/login') }}>
-            Login
-          </Button>
-          <Button
-            color='secondary'
-            onClick={() => { browserHistory.push('/signup') }}>
-            Create Account
-          </Button>
+
+          <RaisedButton
+            style={style}
+            secondary={true}
+            backgroundColor={ExositeTheme.palette.primary2Color}
+            label='Log In'
+            linkButton={true}
+            href={'/login'} />
+
+          <RaisedButton
+            style={style}
+            secondary={true}
+            backgroundColor={ExositeTheme.palette.primary2Color}
+            label='Create Account'
+            linkButton={true}
+            href={'/signup'} />
+
         </div>
       )
     }

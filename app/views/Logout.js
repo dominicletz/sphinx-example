@@ -27,7 +27,7 @@ export default React.createClass({
     })
   },
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     if (typeof this.unsubscribe == "function") { this.unsubscribe() }
   },
 
