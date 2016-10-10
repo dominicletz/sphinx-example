@@ -60,12 +60,16 @@ function kv_write(sn, values)
   Keystore.set({key = "sn_" .. sn, value = to_json(values)})
 end
 
-function write(sn, alias, value)
+function device_write(sn, alias, value)
   local device = kv_read(sn)
   if device.pid == nil then
     return {status="ERROR", reason="device needs to send data first"}
   end
 
+  -- save to keystore
+  kv_write(sn, {[alias]=value})
+
+  -- push to device
   return Device.write({
     pid=device.pid,
     device_sn=sn,

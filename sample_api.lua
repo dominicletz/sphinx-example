@@ -304,7 +304,7 @@ if user ~= nil then
     local message = {}
     for _, alias in ipairs({"state", "humidity", "temperature"}) do
       if request.body[alias] ~= nil then
-        local ret = write(sn, alias, request.body[alias])
+        local ret = device_write(sn, alias, request.body[alias])
         if ret.status ~= nil and ret.status ~= "ok" then
           table.insert(message, {alias = alias, status = ret.status})
         end
