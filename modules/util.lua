@@ -157,9 +157,10 @@ function deviceRpcCall(sn, procedure, args)
 end
 
 function write(sn, alias, value)
-  return deviceRpcCall(sn, "write", {
-    {alias = alias},
-    value
+  return Device.write({
+    pid="p2wpjuz1aoh1714i",
+    device_sn=sn,
+    [alias]=value
   })
 end
 
