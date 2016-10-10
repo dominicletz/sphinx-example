@@ -157,6 +157,10 @@ function deviceRpcCall(sn, procedure, args)
 end
 
 function write(sn, alias, value)
+  -- save to keystore
+  kv_write(sn, {[alias]=value})
+
+  -- push to device
   return Device.write({
     pid="p2wpjuz1aoh1714i",
     device_sn=sn,
