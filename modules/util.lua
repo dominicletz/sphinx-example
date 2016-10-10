@@ -157,12 +157,13 @@ function deviceRpcCall(sn, procedure, args)
 end
 
 function write(sn, alias, value)
-  -- save to keystore
-  kv_write(sn, {[alias]=value})
+  local device = kv_read(sn)
+  if device.pid == nil then
+    return {status="ERROR", reason="device needs to send data first"}
+  end
 
-  -- push to device
   return Device.write({
-    pid="p2wpjuz1aoh1714i",
+    pid=device.pid,
     device_sn=sn,
     [alias]=value
   })
