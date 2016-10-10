@@ -71,7 +71,7 @@ end
 
 -- only add device if the Product event handler has 
 -- heard from it (see event_handler/product.lua)
-device = kv_read_opt(sn, false)
+device = kv_read(sn)
 if device == nil then
   http_error(404, response)
   return  
