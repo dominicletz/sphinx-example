@@ -29,9 +29,9 @@
   data.timestamp integer
   Event time
 --]]
-
-Timeseries.write({
-  query = data.alias .. ",sn=" .. data.device_sn .. " value=" .. tostring(data.value[2])
+Tsdb.write({
+  metrics = {[data.alias] = data.value[2]},
+  tags = {sn = data.device_sn}
 })
 local value = kv_read(data.device_sn)
 if value == nil then
