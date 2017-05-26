@@ -70,11 +70,10 @@ function device_write(sn, alias, value)
   kv_write(sn, {[alias]=value})
 
   -- push to device
-  return Device.write({
-    pid=device.pid,
-    device_sn=sn,
-    [alias]=value
-  })
+  return Lightbulb.setIdentityState({
+                 identity=sn,
+                 [alias]=value
+               })
 end
 
 http_error_codes = {

@@ -426,3 +426,16 @@ if ret ~= nil then
 else
   response.code = 200
 end
+--#ENDPOINT GET /tsdb/query/{sn}/{alias}
+local metrics = {
+  request.parameters.alias
+}
+local tags = {
+  sn = request.parameters.sn
+}
+local out = Tsdb.query({
+  metrics = metrics,
+  tags = tags
+})
+response.message = out
+
