@@ -1,0 +1,31 @@
+---
+# First up is some metadata about this project.
+info:
+  # Nice short and easy. Also must be a valid domain name component.
+  name: Home Automation Example
+
+  # Short one line summary of this project.
+  summary: This home automation example template interfaces with the Connected Lightbuilb quickstart template
+
+  # Longer, multiple paragraph explanation.
+  description: |
+    For more information on getting started with this template, read our documentation at 
+    http://docs.exosite.com/quickstarts/solutions/exampleapp/
+
+  # Who made this
+  authors: ["ryankucera@exosite.com"]
+
+  # The version of the Project
+  version: 1.1.0
+
+services: # Also applies for service configuration using .yaml format.
+  location: services
+  include: '**/*.lua'
+  exclude: ['*_test.lua', '*_spec.lua']
+
+assets:
+  location: assets
+  include: '*.*'
+
+# The format version of this file. This is required.
+formatversion: 1.0.0
