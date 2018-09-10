@@ -1,2 +1,2 @@
---#EVENT config status
+--#EVENT config fallback
 device_event(event)
