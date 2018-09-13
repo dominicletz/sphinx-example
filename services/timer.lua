@@ -1,4 +1,4 @@
---#EVENT timer event
+--#EVENT timer timer
 
 --[[
   request
