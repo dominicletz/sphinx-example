@@ -42,3 +42,5 @@ modules:
 
 # The format version of this file. This is required.
 formatversion: 1.0.0
+
+init_script: init.lua
