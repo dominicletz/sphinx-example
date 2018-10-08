@@ -1,1 +1,0 @@
-device_event(event)
